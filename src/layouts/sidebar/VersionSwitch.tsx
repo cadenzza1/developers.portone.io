@@ -1,3 +1,4 @@
+import { useServerFallback } from "~/misc/useServerFallback";
 import { systemVersionSignal } from "~/state/nav";
 import type { SystemVersion } from "~/type";
 
@@ -12,7 +13,7 @@ export function VersionSwitch() {
 export default VersionSwitch;
 
 function getButtonProps(thisVersion: SystemVersion) {
-  const systemVersion = systemVersionSignal.value;
+  const systemVersion = useServerFallback(systemVersionSignal.value, "all");
   return {
     onClick: () => (systemVersionSignal.value = thisVersion),
     class: systemVersion === thisVersion ? onClass : offClass,
